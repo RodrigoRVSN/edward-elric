@@ -10,4 +10,4 @@
 az webapp up --runtime GO:1.19 --os linux --sku B1 --name edward-elric
 ```
 
-## 
+TBD...
