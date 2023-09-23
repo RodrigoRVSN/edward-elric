@@ -4,24 +4,36 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"os"
 )
 
 func main() {
 	http.HandleFunc("/health-check", handleRequest)
 
-	http.ListenAndServe(":6969", nil)
+	PORT := getPort()
+	http.ListenAndServe(":"+PORT, nil)
 }
 
-func handleRequest(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "application/json")
+func getPort() string {
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		return "6969"
+	}
+
+	return port
+}
+
+func handleRequest(writter http.ResponseWriter, r *http.Request) {
+	writter.Header().Set("Content-Type", "application/json")
 
 	response := make(map[string]string)
-	response["message"] = "Mim de papai"
+	response["message"] = "Ze da mangaaaaa papai"
 	jsonResponse, error := json.Marshal(response)
 
 	if error != nil {
-		fmt.Fprintf(w, "Ih rapaz")
+		fmt.Fprintf(writter, "Ih rapaz")
 	}
 
-	w.Write(jsonResponse)
+	writter.Write(jsonResponse)
 }
