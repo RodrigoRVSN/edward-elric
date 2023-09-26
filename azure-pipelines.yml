@@ -7,8 +7,6 @@ pool:
 jobs:
 - job: BuildAndTest
   displayName: 'Build and Test'
-  strategy:
-    parallel: 1  # Set parallelism to 1 to run steps sequentially
   steps:
   - script: |
       mkdir -p '$(GOPATH)/bin'
@@ -34,5 +32,5 @@ jobs:
 
   - script: |
       go test
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    workingDirectory: '$(modulePath)'
     displayName: 'Run tests'
