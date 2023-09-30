@@ -17,7 +17,7 @@ jobs:
       mv !(gopath) '$(modulePath)'
       echo '##vso[task.prependpath]$(GOBIN)'
       echo '##vso[task.prependpath]$(GOROOT)/bin'
-    displayName: 'Set up the Go workspace'
+    displayName: '⚒️ Set up the Go workspace'
 
   - script: |
       go version
@@ -28,9 +28,22 @@ jobs:
       fi
       go build -v .
     workingDirectory: '$(modulePath)'
-    displayName: 'Get dependencies, then build'
+    displayName: '📦 Get dependencies, then build'
 
   - script: |
       go test
     workingDirectory: '$(modulePath)'
-    displayName: 'Run tests'
+    displayName: '🧪 Run tests'
+
+- job: DeployToAzure
+  displayName: 'Deploy to Azure App Service'
+  dependsOn: BuildAndTest
+  steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
+  
+  - script: |
+      az webapp up --runtime GO:1.19 --os linux --sku B1 --name edward-elric
+    displayName: '🚀 Deploy to Azure App Service'
