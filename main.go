@@ -7,13 +7,6 @@ import (
 	"os"
 )
 
-func main() {
-	http.HandleFunc("/health-check", handleRequest)
-
-	PORT := getPort()
-	http.ListenAndServe(":"+PORT, nil)
-}
-
 func getPort() string {
 	port := os.Getenv("PORT")
 
@@ -36,4 +29,13 @@ func handleRequest(writter http.ResponseWriter, r *http.Request) {
 	}
 
 	writter.Write(jsonResponse)
+}
+
+func main() {
+	http.HandleFunc("/health-check", handleRequest)
+
+	PORT := getPort()
+
+	fmt.Println("🚀 Server running on port: " + PORT)
+	http.ListenAndServe(":"+PORT, nil)
 }
