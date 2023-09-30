@@ -34,16 +34,3 @@ jobs:
       go test
     workingDirectory: '$(modulePath)'
     displayName: '🧪 Run tests'
-
-- job: DeployToAzure
-  displayName: 'Deploy to Azure App Service'
-  dependsOn: BuildAndTest
-  steps:
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '3.x'
-      addToPath: true
-  
-  - script: |
-      az webapp up --runtime GO:1.19 --os linux --sku B1 --name edward-elric
-    displayName: '🚀 Deploy to Azure App Service'
